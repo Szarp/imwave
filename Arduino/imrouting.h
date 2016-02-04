@@ -12,19 +12,27 @@
 #include "imframe.h"
 
 
-#define MAXTableRouting 8
+#define MAXTableRouting 127
 class IMRouting
 {
   private:
   int count;
-  IMAddress Source[MAXTableRouting];
-  IMAddress Destination[MAXTableRouting];
+  IMAddress WARD[MAXTableRouting];          //hop address
+  IMAddress ORIGIN[MAXTableRouting];        //device address
+  IMMAC MACARRAY[MAXTableRouting];
+  byte CHANNEL[MAXTableRouting];           //device channel listen
+  byte Send(IMFrame & frame);
+//  IMAddress Forward(IMAddress addr);
+  byte find(IMMAC  mac);
 
   public:
-  uint32_t time[MAXTableRouting];
-
-  byte Send(IMFrame & frame);
-  IMAddress Forward(IMAddress addr);
+//  uint32_t time[MAXTableRouting];
+  IMAddress myId;
+  IMAddress Repeater(IMAddress addr);
+  void addMAC(IMMAC mac,IMAddress ward);
+  byte addAddress(IMMAC mac,IMAddress addr, byte channel);
+  byte getChannel(IMAddress addr);
+  void reset();
 
 };
 
